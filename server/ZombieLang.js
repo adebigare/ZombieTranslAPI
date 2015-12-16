@@ -84,8 +84,8 @@ ZombieLang.unzombify = function(inputValue) {
 			replace: 'derp'
 		},	
 		{
-			// 8. "r" or "R' is replaced by "herp"
-			match: /[rR](?!\s|$)/g,
+			// 'y' or 'Y' is replaced by 'herp'
+			match: /[yY]/g,
 			replace: 'herp'
 		}
 	];

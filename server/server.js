@@ -1,10 +1,19 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-
+var fs = require('fs');
+var markdownTransformer = require('./markdownTransformer');
 var zombieLang = require('./ZombieLang');
 var logger = require('./logger');
 
+
 var app = express();
+
+var handleMarkdown = function(filename, res){
+  res.set('Content-Type', 'text/html');
+  res.status(200);
+  var file = fs.createReadStream(filename);
+  file.pipe(markdownTransformer()).pipe(res);
+};
 
 app.use(bodyParser.json());
 
@@ -15,17 +24,19 @@ app.use(function(req, res, next) {
   next();
 });
 
+
+
 app.use(function(req, res, next){
 
   res.on("finish", function() {
     logger(req, res);
   });
   next();
-  
+
 });
 
 app.get('/', function(req, res){
-  res.send('root');
+  handleMarkdown('readme.md', res);
 });
 
 app.get('/zombify', function(req, res){
