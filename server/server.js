@@ -26,6 +26,12 @@ app.get('/', function(req, res){
 app.get('/zombify', function(req, res){
 
   var data = req.query.q; 
+
+  if (data.length > 1000) {
+    res.status(414).json({ "status": 414, "message": "Whoa there! Long winded huh?"});
+    return; 
+  }
+  
   data = zombieLang.zombify(data);
   
   var obj = {result : data};
@@ -35,6 +41,12 @@ app.get('/zombify', function(req, res){
 
 app.get('/unzombify', function(req, res){
   var data = req.query.q; 
+
+  if (data.length > 1000) {
+    res.status(414).json({ "status": 414, "message": "Whoa there! Long winded huh?"});
+    return; 
+  }
+
   data = zombieLang.unzombify(data);
   
   var obj = {result : data};
@@ -42,7 +54,9 @@ app.get('/unzombify', function(req, res){
   res.json(obj);
 });
 
-
+app.use(function(req, res) {
+     res.status(404).json({ "status": 404, "message": "No page for you"});
+});
 
 app.listen(7000, function(){
   console.log("starting server on 7000");
