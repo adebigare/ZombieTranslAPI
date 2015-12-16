@@ -2,13 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 var zombieLang = require('./ZombieLang');
+var logger = require('./logger');
 
 var app = express();
-
-app.use(function(req, res, next){
-  console.log((new Date()).toString() + " " + req.method + " " + req.url);
-  next();
-});
 
 app.use(bodyParser.json());
 
@@ -17,6 +13,15 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   next();
+});
+
+app.use(function(req, res, next){
+
+  res.on("finish", function() {
+    logger(req, res);
+  });
+  next();
+  
 });
 
 app.get('/', function(req, res){
@@ -31,7 +36,7 @@ app.get('/zombify', function(req, res){
     res.status(414).json({ "status": 414, "message": "Whoa there! Long winded huh?"});
     return; 
   }
-  
+
   data = zombieLang.zombify(data);
   
   var obj = {result : data};
