@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-// var zombieLang = require('ZombieLang');
+var zombieLang = require('./ZombieLang');
 
 var app = express();
 
@@ -24,10 +24,9 @@ app.get('/', function(req, res){
 });
 
 app.get('/zombify', function(req, res){
-   
+
   var data = req.query.q; 
-  // data = zombieLang.convert(data);
-  // console.log(data);
+  data = zombieLang.convert(data);
   
   var obj = {result : data};
 
