@@ -1,6 +1,6 @@
 var ZombieLang = {};
 
-ZombieLang.convert = function(inputValue) {
+ZombieLang.zombify = function(inputValue) {
 
 	var patterns = [
 		{
@@ -74,6 +74,32 @@ ZombieLang.convert = function(inputValue) {
 	}
 
 	return inputValue;
+};
+
+ZombieLang.unzombify = function(inputValue) {
+	var patterns = [
+		{
+			// 8. "r" or "R' is replaced by "derp"
+			match: /[rR](?!\s|$)/g,
+			replace: 'derp'
+		},	
+		{
+			// 8. "r" or "R' is replaced by "herp"
+			match: /[rR](?!\s|$)/g,
+			replace: 'herp'
+		}
+	];
+	for (var x = 0; x < patterns.length; x++) {
+		if (pattern === null) {
+			return 'error';
+		}	
+		var pattern = patterns[x];	
+		inputValue = inputValue.replace(pattern.match, pattern.replace);
+
+	}
+
+	return inputValue;
+
 };
 
 module.exports = ZombieLang;

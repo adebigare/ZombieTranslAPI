@@ -26,7 +26,7 @@ app.get('/', function(req, res){
 app.get('/zombify', function(req, res){
 
   var data = req.query.q; 
-  data = zombieLang.convert(data);
+  data = zombieLang.zombify(data);
   
   var obj = {result : data};
 
@@ -34,7 +34,12 @@ app.get('/zombify', function(req, res){
 });
 
 app.get('/unzombify', function(req, res){
-  res.send('unzombify');
+  var data = req.query.q; 
+  data = zombieLang.unzombify(data);
+  
+  var obj = {result : data};
+
+  res.json(obj);
 });
 
 
